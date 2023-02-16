@@ -7,3 +7,9 @@ The main files being worked on are:
 - app.js
 - files in the public folder
 - files in the views folder
+
+The packages installed are:
+- express-generator@4.16.1
+- npm@9.1.2
+
+The node modules file is missing as it includes too many files.
