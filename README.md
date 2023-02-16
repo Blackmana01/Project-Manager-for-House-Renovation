@@ -15,8 +15,8 @@ The packages installed are:
 The node modules file is missing as it includes too many files.
 
 TO DO:
-16/02/2023:
--Update function to update all progress when activity added.
--Add budget advice
--Concise views folder (all new pages can be made into one new page)
--Comments
+16/02/2023
+- Update function to update all progress when activity added.
+- Add budget advice
+- Concise views folder (all new pages can be made into one new page)
+- Comments
