@@ -307,6 +307,7 @@ app.post("/create/project", (req, res) => {
         if(error) {
             console.log(error)
         } else {
+            updateprogress()
             res.redirect('/myproj')
         }
     })
@@ -319,6 +320,7 @@ app.post("/edit/project", (req, res) => {
         if(error) {
             console.log(error)
         } else {
+            updateprogress()
             res.redirect('/myproj')
         }
     })
@@ -330,6 +332,7 @@ app.post("/del/project", (req, res) => {
         if(error) {
             console.log(error)
         } else {
+            updateprogress()
             res.redirect('/myproj')
         }
     })
@@ -352,6 +355,7 @@ app.post("/create/task", (req, res) => {
         if(error) {
             console.log(error)
         } else {
+            updateprogress()
             res.redirect('/tasks')
         }
     })
@@ -364,6 +368,7 @@ app.post("/edit/task", (req, res) => {
         if(error) {
             console.log(error)
         } else {
+            updateprogress()
             res.redirect('/tasks')
         }
     })
@@ -375,6 +380,7 @@ app.post("/del/task", (req, res) => {
         if(error) {
             console.log(error)
         } else {
+            updateprogress()
             res.redirect('/tasks')
         }
     })
@@ -397,6 +403,7 @@ app.post("/create/act", (req, res) => {
         if(error) {
             console.log(error)
         } else {
+            updateprogress()
             res.redirect('/acts')
         }
     })
@@ -409,6 +416,7 @@ app.post("/edit/act", (req, res) => {
         if(error) {
             console.log(error)
         } else {
+            updateprogress()
             res.redirect('/acts')
         }
     })
@@ -420,6 +428,7 @@ app.post("/del/act", (req, res) => {
         if(error) {
             console.log(error)
         } else {
+            updateprogress()
             res.redirect('/acts')
         }
     })
@@ -436,9 +445,59 @@ app.post("/select/activities", (req, res) => {
     }
 })
 
-//app.post("/update/progress", (req, res) => {
-//
-//})
+function updateprogress(){
+    //Update Task Progress
+    var query = `UPDATE tasks SET progress = 0`;
+    db.query(query, (error, result) => {
+        if(error) {
+            console.log(error)
+        } else {
+            var query = `SELECT * FROM activities`;
+            db.query(query, (error, result) => {
+                if(error) {
+                    console.log(error)
+                } else {
+                    result.forEach(Element => {
+                        var query = `UPDATE tasks SET progress = progress + ${Element.progress} WHERE task_id = "${Element.task_id}"`;
+                        db.query(query, (error, result) => {
+                            if(error) {
+                                console.log(error)
+                            } else {
+                                console.log("success");
+                            }
+                        })
+                    })
+                }
+            })
+        }
+    })
+    //Update Project Progress
+    var query = `UPDATE projects SET progress = 0`;
+    db.query(query, (error, result) => {
+        if(error) {
+            console.log(error)
+        } else {
+            var query = `SELECT * FROM tasks`;
+            db.query(query, (error, result) => {
+                if(error) {
+                    console.log(error)
+                } else {
+                    result.forEach(Element => {
+                        var query = `UPDATE projects SET progress = (SELECT SUM(progress) / COUNT(*) FROM tasks WHERE proj_id = "${Element.proj_id}") WHERE proj_id = "${Element.proj_id}"`;
+                        db.query(query, (error, result) => {
+                            if(error) {
+                                console.log(error)
+                            } else {
+                                console.log(result);
+                            }
+                        })
+                    })
+
+                }
+            })
+        }
+    })
+}
 
 app.get('/logout',(req,res) => {
     req.session.destroy();
