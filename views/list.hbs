@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>    
+  <meta charset="utf-8"/>
+  <title>Home</title>
+  <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+</head>
+<body>
+  <nav>
+    <h4>Home</h4>
+    <ul class="nav">
+        <li><a href="/home">Home</a></li>
+        <li><a href="/myproj">My Projects</a></li>
+        <li><a href="/sharedproj">Shared Projects</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+  </nav>
+  <!-- List projects -->
+  {{#if projects}}
+    <button type="button" class="login-button" onclick="location.href='/newproj'">Create New Project</button>
+    <div id="projects">
+    </div>
+    <script>
+      var text = "{{projects}}";
+      var text = text.replace(/&quot;/g, '\"');
+      var obj = JSON.parse(text);
+      const container = document.getElementById('projects');
+      function project(i){
+        const form = document.createElement('form');
+        form.setAttribute("class","form");
+        form.setAttribute("method","POST");
+        form.setAttribute("action","/project");
+        form.innerHTML = `
+              <input type="hidden" id="ID" name="ID">
+              <h1 id="title" class="login-title"></h1>
+              <h3 id="desc" class="login-title"></h3>
+              <div class="grid-container">
+                  <div class="grid-item" id="grid-item1">
+                      <input type="submit" value="edit" name="type">
+                  </div>
+                  <div class="grid-item" id="grid-item2">
+                      <input type="submit" value="view" name="type">
+                  </div>
+              </div>
+        `;
+        container.appendChild(form);
+        document.getElementById("ID").setAttribute("value", obj[i].proj_id);
+        document.getElementById("ID").setAttribute("id", obj[i].proj_id);
+        document.getElementById("title").setAttribute("id", "name"+i);
+        document.getElementById("desc").setAttribute("id", "desc"+i);
+        document.getElementById("name"+i).innerHTML = obj[i].proj_name;
+        document.getElementById("desc"+i).innerHTML = obj[i].proj_desc;
+      }
+      for(let i = 0; i < obj.length; i++) {
+        project(i);
+      }
+    </script>
+  {{/if}} 
+  <!-- List tasks -->
+  {{#if tasks}}
+    <button type="button" class="login-button" onclick="location.href='/editproj'">Back</button>
+    <div><br></div>
+    <button type="button" class="login-button" onclick="location.href='/newtask'">New Task</button>
+    <div id="tasks">
+    </div>
+    <script>
+      var text = "{{tasks}}";
+      var text = text.replace(/&quot;/g, '\"');
+      var obj = JSON.parse(text);
+      const container = document.getElementById('tasks');
+      function project(i){
+        const form = document.createElement('form');
+        form.setAttribute("class","form");
+        form.setAttribute("method","POST");
+        form.setAttribute("action","/select/tasks");
+        form.innerHTML = `
+            <input type="hidden" id="ID" name="ID">
+            <h1 id="title" class="login-title"></h1>
+            <h3 id="desc" class="login-title"></h3>
+            <div class="grid-container">
+                <div class="grid-item" id="grid-item1">
+                    <input type="submit" value="edit" name="type">
+                </div>
+                <div class="grid-item" id="grid-item2">
+                    <input type="submit" value="view" name="type">
+                </div>
+            </div>
+        `;
+        container.appendChild(form);
+        document.getElementById("ID").setAttribute("value", obj[i].task_id);
+        document.getElementById("ID").setAttribute("id", obj[i].task_id);
+        document.getElementById("title").setAttribute("id", "name"+i);
+        document.getElementById("desc").setAttribute("id", "desc"+i);
+        document.getElementById("name"+i).innerHTML = obj[i].task_name;
+        document.getElementById("desc"+i).innerHTML = obj[i].task_desc;
+      }
+      for(let i = 0; i < obj.length; i++) {
+        project(i);
+      }
+    </script>
+  {{/if}} 
+  <!-- List activities -->
+  {{#if activities}}
+    <button type="button" class="login-button" onclick="location.href='/edittask'">Back</button>
+    <div><br></div>
+    <button type="button" class="login-button" onclick="location.href='/newact'">New Activity</button>
+    <div id="activities">
+
+    </div>
+    <script>
+      var text = "{{activities}}";
+      var text = text.replace(/&quot;/g, '\"');
+      var obj = JSON.parse(text);
+      const container = document.getElementById('activities');
+      function project(i){
+        const form = document.createElement('form');
+        form.setAttribute("class","form");
+        form.setAttribute("method","POST");
+        form.setAttribute("action","/select/activities");
+        form.innerHTML = `
+            <input type="hidden" id="ID" name="ID">
+            <h1 id="title" class="login-title"></h1>
+            <h3 id="desc" class="login-title"></h3>
+            <div class="grid-container">
+                <div class="grid-item" id="grid-item1">
+                    <input type="submit" value="edit" name="type">
+                </div>
+                <div class="grid-item" id="grid-item2">
+                    <input type="submit" value="view" name="type">
+                </div>
+            </div>
+        `;
+        container.appendChild(form);
+        document.getElementById("ID").setAttribute("value", obj[i].act_id);
+        document.getElementById("ID").setAttribute("id", obj[i].act_id);
+        document.getElementById("title").setAttribute("id", "name"+i);
+        document.getElementById("desc").setAttribute("id", "desc"+i);
+        document.getElementById("name"+i).innerHTML = obj[i].act_name;
+        document.getElementById("desc"+i).innerHTML = obj[i].act_desc;
+      }
+      for(let i = 0; i < obj.length; i++) {
+        project(i);
+      }
+    </script>
+  {{/if}} 
+</body>

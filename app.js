@@ -41,12 +41,15 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
     res.render("index")
 })
+
 app.listen(3000, ()=> {
     console.log("server started on port 3000")
 })
+
 app.get("/register", (req, res) => {
     res.render("register")
 })
+
 app.get("/home", (req, res) => {
     if(session.userid){
         res.render("home", {
@@ -55,78 +58,89 @@ app.get("/home", (req, res) => {
     }else
     res.redirect("index")
 })
+
 app.get("/myproj", (req, res) => {
     db.query('SELECT * FROM projects WHERE creator_id = ?', [session.userid], async (error, result) => {
         if(error){
             console.log(error)
         }else{
-            res.render("myproj", {
+            res.render("list", {
                 projects: JSON.stringify(result)
             })
         }
     })
 })
+
 app.get("/sharedproj", (req, res) => {
     res.render("sharedproj")
 })
+
 app.get("/newproj", (req, res) => {
-    res.render("newproj")
+    res.render("new", {
+        project: res
+    })
 })
+
 app.get("/editproj", (req, res) => {
     db.query('SELECT * FROM projects WHERE proj_id = ?', [session.proj_id], async (error, result) => {
         if(error){
             console.log(error)
         }else{
-            res.render("editproj", {
+            res.render("edit", {
                 project: JSON.stringify(result)
             })
         }
     })
 })
+
 app.get("/viewproj", (req, res) => {
     db.query('SELECT * FROM projects WHERE proj_id = ?', [session.proj_id], async (error, result) => {
         if(error){
             console.log(error)
         }else{
-            res.render("viewproj", {
+            res.render("view", {
                 project: JSON.stringify(result)
             })
         }
     })
 })
-app.get("/tasks", (req, res) => {
-    db.query('SELECT * FROM tasks WHERE proj_id = ?', [session.proj_id], async (error, result) => {
-        if(error){
-            console.log(error)
-        }else{
-            res.render("tasks", {
-                tasks: JSON.stringify(result)
-            })
-        }
-    })
-})
+
 app.get("/viewtask", (req, res) => {
     db.query('SELECT * FROM tasks WHERE task_id = ?', [session.task_id], async (error, result) => {
         if(error){
             console.log(error)
         }else{
-            res.render("viewtask", {
+            res.render("view", {
                 task: JSON.stringify(result)
             })
         }
     })
 })
+
+app.get("/tasks", (req, res) => {
+    db.query('SELECT * FROM tasks WHERE proj_id = ?', [session.proj_id], async (error, result) => {
+        if(error){
+            console.log(error)
+        }else{
+            res.render("list", {
+                tasks: JSON.stringify(result)
+            })
+        }
+    })
+})
+
 app.get("/newtask", (req, res) => {
     db.query('SELECT * FROM projects WHERE proj_id = ?', [session.proj_id], async (error, result) => {
         if(error){
             console.log(error)
         }else{
-            res.render("newtask", {
-                project: JSON.stringify(result)
+            res.render("new", {
+                projectdata: JSON.stringify(result)
             })
         }
     })
 })
+
 app.get("/edittask", (req, res) => {
     db.query('SELECT * FROM tasks WHERE task_id = ?', [session.task_id], async (error, task) => {
         if(error){
@@ -136,8 +150,8 @@ app.get("/edittask", (req, res) => {
                 if(error){
                     console.log(error)
                 }else{
-                    res.render("edittask", {
-                        project: JSON.stringify(project),
+                    res.render("edit", {
+                        project1: JSON.stringify(project),
                         task: JSON.stringify(task)
                     })
                 }
@@ -145,28 +159,31 @@ app.get("/edittask", (req, res) => {
         }
     })
 })
+
 app.get("/acts", (req, res) => {
     db.query('SELECT * FROM activities WHERE task_id = ?', [session.task_id], async (error, result) => {
         if(error){
             console.log(error)
         }else{
-            res.render("acts", {
+            res.render("list", {
                 activities: JSON.stringify(result)
             })
         }
     })
 })
+
 app.get("/viewact", (req, res) => {
     db.query('SELECT * FROM activities WHERE act_id = ?', [session.activity_id], async (error, result) => {
         if(error){
             console.log(error)
         }else{
-            res.render("viewact", {
+            res.render("view", {
                 activity: JSON.stringify(result)
             })
         }
     })
 })
+
 app.get("/newact", (req, res) => {
     db.query('SELECT * FROM tasks WHERE task_id = ?', [session.task_id], async (error, task) => {
         if(error){
@@ -176,15 +193,16 @@ app.get("/newact", (req, res) => {
                 if(error){
                     console.log(error)
                 }else{
-                    res.render("newact", {
-                        project: JSON.stringify(project),
-                        task: JSON.stringify(task)
+                    res.render("new", {
+                        projectdata1: JSON.stringify(project),
+                        taskdata1: JSON.stringify(task)
                     })
                 }
             })
         }
     })
 })
+
 app.get("/editact", (req, res) => {
     db.query('SELECT * FROM activities WHERE act_id = ?', [session.activity_id], async (error, activity) => {
         if(error){
@@ -198,10 +216,10 @@ app.get("/editact", (req, res) => {
                         if(error){
                             console.log(error)
                         }else{
-                            res.render("editact", {
+                            res.render("edit", {
                                 activity: JSON.stringify(activity),
-                                project: JSON.stringify(project),
-                                task: JSON.stringify(task)
+                                project2: JSON.stringify(project),
+                                task1: JSON.stringify(task)
                             })
                         }
                     })
@@ -209,6 +227,11 @@ app.get("/editact", (req, res) => {
             })
         }
     })
+})
+
+app.get('/logout',(req,res) => {
+    req.session.destroy();
+    res.redirect('/');
 })
 
 const bcrypt = require("bcryptjs")
@@ -488,7 +511,7 @@ function updateprogress(){
                             if(error) {
                                 console.log(error)
                             } else {
-                                console.log(result);
+                                console.log("success");
                             }
                         })
                     })
@@ -498,8 +521,3 @@ function updateprogress(){
         }
     })
 }
-
-app.get('/logout',(req,res) => {
-    req.session.destroy();
-    res.redirect('/');
-});
