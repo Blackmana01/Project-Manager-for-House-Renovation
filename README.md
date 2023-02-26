@@ -16,6 +16,5 @@ The node modules file is missing as it includes too many files.
 
 TO DO:
 18/02/2023
-- Gannt Chart
 - Add budget advice
-- Comments
+- Add shared access
