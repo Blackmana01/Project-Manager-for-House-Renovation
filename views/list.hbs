@@ -2,7 +2,7 @@
 <html lang="en">
 <head>    
   <meta charset="utf-8"/>
-  <title>Home</title>
+  <title>List</title>
   <link rel="stylesheet" type="text/css" href="/css/style.css"/>
 </head>
 <body>
@@ -18,15 +18,15 @@
   <!-- List projects -->
   {{#if projects}}
     <button type="button" class="login-button" onclick="location.href='/newproj'">Create New Project</button>
-    <div id="projects">
+    <div id="projects"> <!-- Div to put projects in -->
     </div>
     <script>
-      var text = "{{projects}}";
-      var text = text.replace(/&quot;/g, '\"');
-      var obj = JSON.parse(text);
-      const container = document.getElementById('projects');
+      var text = "{{projects}}"; //Get project
+      var text = text.replace(/&quot;/g, '\"'); //Replace quote marks
+      var obj = JSON.parse(text); //Parse to JSON 
+      const container = document.getElementById('projects'); // Get container for project
       function project(i){
-        const form = document.createElement('form');
+        const form = document.createElement('form'); // Create form
         form.setAttribute("class","form");
         form.setAttribute("method","POST");
         form.setAttribute("action","/project");
@@ -51,7 +51,7 @@
         document.getElementById("name"+i).innerHTML = obj[i].proj_name;
         document.getElementById("desc"+i).innerHTML = obj[i].proj_desc;
       }
-      for(let i = 0; i < obj.length; i++) {
+      for(let i = 0; i < obj.length; i++) { // Loop through each project
         project(i);
       }
     </script>

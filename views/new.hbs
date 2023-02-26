@@ -2,7 +2,7 @@
 <html lang="en">
 <head>    
   <meta charset="utf-8"/>
-  <title>Home</title>
+  <title>New</title>
   <link rel="stylesheet" type="text/css" href="/css/style.css"/>
 </head>
 <body>
@@ -27,15 +27,31 @@
             <h3 class="login-title">Budget:</h1>
             <input type="number" class="login-input" id="budget" placeholder="Budget" name="budget" min="0" required>
             <h3 class="login-title">Start Date:</h1>
-            <input type="date" class="login-input" id="start_date" placeholder="Start Date" name="start_date" required>
+            <input type="date" class="login-input" id="start_date" placeholder="Start Date" name="start_date" onchange="minDate(event)" required>
             <h3 class="login-title">End Date:</h1>
-            <input type="date" class="login-input" id="end_date" placeholder="End Date" name="end_date" required>
+            <input type="date" class="login-input" id="end_date" placeholder="End Date" name="end_date" onchange="maxDate(event)" required>
             <button type="submit" class="login-button">Submit</button>
         </form>
         <script defer>
-            today = new Date().toLocaleDateString('en-ca')
-            document.getElementById("start_date").setAttribute("min", today);
-            document.getElementById("end_date").setAttribute("min", today);
+            today = new Date().toISOString().split("T")[0]; // Get todays date
+            document.getElementById("start_date").setAttribute("min", today); // Set today as minimun date
+            document.getElementById("end_date").setAttribute("min", today); // Set todat as minimum date
+            function minDate(e) { // Minimun/maximum date set for end date (one week/one year)
+                var D = new Date(e.target.value);
+                D.setDate(D.getDate() + 7 * 1);
+                D = D.toISOString().split("T")[0];
+                document.getElementById("end_date").setAttribute("min", D);
+                var D = new Date(e.target.value);
+                D.setDate(D.getDate() + 365 * 1);
+                D = D.toISOString().split("T")[0];
+                document.getElementById("end_date").setAttribute("max", D);
+            }
+             function maxDate(e) { // Maximum date set for start date
+                var D = new Date(e.target.value);
+                D.setDate(D.getDate() + 7 * -1);
+                D = D.toISOString().split("T")[0];
+                document.getElementById("start_date").setAttribute("max", D);
+            }
         </script>
     {{/if}}
     <!-- New Task -->
@@ -48,9 +64,9 @@
             <h3 class="login-title">Task Description:</h1>
             <input type="text" class="login-input" id="desc" placeholder="Description" name="desc" required>
             <h3 class="login-title">Start Date:</h1>
-            <input type="date" class="login-input" id="start_date" placeholder="Start Date" name="start_date" required>
+            <input type="date" class="login-input" id="start_date" placeholder="Start Date" name="start_date" onchange="minDate(event)" required>
             <h3 class="login-title">End Date:</h1>
-            <input type="date" class="login-input" id="end_date" placeholder="End Date" name="end_date" required>
+            <input type="date" class="login-input" id="end_date" placeholder="End Date" name="end_date" onchange="maxDate(event)" required>
             <button type="submit" class="login-button">Submit</button>
         </form>
         <script defer>
@@ -62,6 +78,14 @@
             document.getElementById("start_date").setAttribute("max", project.end_date.split("T")[0]);
             document.getElementById("end_date").setAttribute("min", project.start_date.split("T")[0]);
             document.getElementById("end_date").setAttribute("max", project.end_date.split("T")[0]);
+            function minDate(e) {
+                var D = new Date(e.target.value).toISOString().split("T")[0];
+                document.getElementById("end_date").setAttribute("min", D);
+            }
+             function maxDate(e) {
+                var D = new Date(e.target.value).toISOString().split("T")[0];
+                document.getElementById("start_date").setAttribute("max", D);
+            }
         </script>
     {{/if}}
     <!-- New Activity -->

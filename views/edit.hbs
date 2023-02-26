@@ -2,7 +2,7 @@
 <html lang="en">
 <head>    
   <meta charset="utf-8"/>
-  <title>Home</title>
+  <title>Edit</title>
   <link rel="stylesheet" type="text/css" href="/css/style.css"/>
 </head>
 <body>
@@ -27,9 +27,9 @@
         <h3 class="login-title">Budget:</h3>
         <input type="number" class="login-input" id="budget" placeholder="Budget" name="budget" min="0" required>
         <h3 class="login-title">Start Date:</h3>
-        <input type="date" class="login-input" id="start_date" placeholder="Start Date" name="start_date" required>
+        <input type="date" class="login-input" id="start_date" placeholder="Start Date" name="start_date" onchange="minDate(event)" required>
         <h3 class="login-title">End Date:</h3>
-        <input type="date" class="login-input" id="end_date" placeholder="End Date" name="end_date" required>
+        <input type="date" class="login-input" id="end_date" placeholder="End Date" name="end_date" onchange="maxDate(event)" required>
         <button type="submit" class="login-button">Submit</button>
     </form>
     <form class="form">
@@ -40,22 +40,34 @@
     </form>
     </div>
     <script>
-      var text = "{{project}}";
-      var text = text.replace(/&quot;/g, '\"');
-      var obj = JSON.parse(text);
-      var project = obj[0];
+      var text = "{{project}}"; //Get project
+      var text = text.replace(/&quot;/g, '\"'); //Replace quote marks
+      var obj = JSON.parse(text); //Parse to JSON 
+      var project = obj[0]; //First Element in array as Project
       document.getElementById("name").setAttribute("placeholder", project.proj_name)
       document.getElementById("name").setAttribute("value", project.proj_name)
       document.getElementById("desc").setAttribute("placeholder", project.proj_desc)
       document.getElementById("desc").setAttribute("value", project.proj_desc)
       document.getElementById("budget").setAttribute("placeholder", project.budget)
       document.getElementById("budget").setAttribute("value", project.budget)
-      document.getElementById("start_date").setAttribute("placeholder", project.start_date.split('T')[0])
+      document.getElementById("start_date").setAttribute("placeholder", project.start_date.split('T')[0]) 
       document.getElementById("start_date").setAttribute("min", project.start_date.split('T')[0])
       document.getElementById("start_date").setAttribute("value", project.start_date.split('T')[0])
       document.getElementById("end_date").setAttribute("placeholder", project.end_date.split('T')[0])
       document.getElementById("end_date").setAttribute("min", project.end_date.split('T')[0]);
       document.getElementById("end_date").setAttribute("value", project.end_date.split('T')[0])
+      function minDate(e) { // Get minimun date (one week after start date)
+          var D = new Date(e.target.value);
+          D.setDate(D.getDate() + 7 * 1);
+          D = D.toISOString().split("T")[0];
+          document.getElementById("end_date").setAttribute("min", D);
+      }
+        function maxDate(e) { // Get maximum date (one week before end date)
+          var D = new Date(e.target.value);
+          D.setDate(D.getDate() + 7 * -1);
+          D = D.toISOString().split("T")[0];
+          document.getElementById("start_date").setAttribute("max", D);
+      }
     </script>
   {{/if}}
   <!-- Edit Task -->
@@ -68,9 +80,9 @@
         <h3 class="login-title">Task Description:</h3>
         <input type="text" class="login-input" id="desc" placeholder="Description" name="desc" required>
         <h3 class="login-title">Start Date:</h3>
-        <input type="date" class="login-input" id="start_date" placeholder="Start Date" name="start_date" required>
+        <input type="date" class="login-input" id="start_date" placeholder="Start Date" name="start_date" onchange="minDate(event)" required>
         <h3 class="login-title">End Date:</h3>
-        <input type="date" class="login-input" id="end_date" placeholder="End Date" name="end_date" required>
+        <input type="date" class="login-input" id="end_date" placeholder="End Date" name="end_date" onchange="maxDate(event)" required>
         <button type="submit" class="login-button">Submit</button>
     </form>
     <form class="form">
@@ -101,6 +113,14 @@
       document.getElementById("end_date").setAttribute("min", project.start_date.split('T')[0]);
       document.getElementById("end_date").setAttribute("max", project.end_date.split('T')[0]);
       document.getElementById("end_date").setAttribute("value", task.end_date.split('T')[0]);
+      function minDate(e) {
+        var D = new Date(e.target.value).toISOString().split("T")[0];
+        document.getElementById("end_date").setAttribute("min", D);
+      }
+      function maxDate(e) {
+        var D = new Date(e.target.value).toISOString().split("T")[0];
+        document.getElementById("start_date").setAttribute("max", D);
+      }
     </script>
   {{/if}}
   <!-- Edit Activity -->

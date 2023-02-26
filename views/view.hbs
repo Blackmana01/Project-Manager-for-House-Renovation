@@ -32,17 +32,86 @@
             </div>
         </div>
     </div>
+    <div id="gantt" class="gantt">
+        <div id="weeks" class="weeks" style="text-align: center; height: 25px;">Tasks / Weeks
+        </div>
+        <div id="tasks" class="tasks" style="height: 200px">
+        </div>
+    </div>
     <script>
         var text = "{{project}}";
         var text = text.replace(/&quot;/g, '\"');
         var obj = JSON.parse(text);
         var project = obj[0];
+        var text = "{{tasks}}";
+        var text = text.replace(/&quot;/g, '\"');
+        var tasks = JSON.parse(text);
         document.getElementById("title").innerHTML = project.proj_name;
         document.getElementById("desc").innerHTML = project.proj_desc;
         document.getElementById("budget").innerHTML = "Budget: " +project.budget;
         document.getElementById("progress").innerHTML = "Progress: " +project.progress;
         document.getElementById("start").innerHTML = "Start: " +project.start_date.split('T')[0];
         document.getElementById("finish").innerHTML = "Finish: " +project.end_date.split('T')[0];
+        function gannt() { // Gannt chart function
+            var weekgrid = "10% "; // Week grid with 10% margin at start
+            for (let i = 1; i < getweeks(project.start_date, project.end_date)+1; i++){ // Loop through weeks in project
+                weekgrid = weekgrid.concat("1fr "); // Add seperator to week grid
+                var week = document.createElement('div'); // Create week div
+                week.className = "grid-item";
+                week.id = "week-item" + i;
+                week.innerHTML = i;
+                week.style.border = "1px solid rgb(0, 0, 0)";
+                document.getElementById('weeks').appendChild(week); // Append to weeks div
+            }
+            document.getElementById('weeks').style.gridTemplateColumns = weekgrid; // Apply style
+            for (let i = 0; i < tasks.length; i++){ // Loop though tasks in project 
+                var taskprog = tasks[i].progress; // Get progress of task
+                var taskname = document.createElement('div'); // Create task div
+                taskname.className = "grid-item";
+                taskname.id = "task-item" + i;
+                taskname.innerHTML = tasks[i].task_name;
+                taskname.style.border = "1px solid rgb(0, 0, 0)";
+                document.getElementById('tasks').appendChild(taskname); // Add task to div
+                sdtosd = getweeks(project.start_date, tasks[i].start_date); // Get weeks between project start and task start
+                sdtoed = getweeks(tasks[i].start_date, tasks[i].end_date); // Get weeks between task start and task end
+                edtoed = getweeks(tasks[i].end_date, project.end_date); // Get weeks between task end and project end
+                for(let j = 0; j < sdtosd-1; j++){ // Loop through weeks
+                    var space = document.createElement('div'); // create space div
+                    space.className = "grid-item";
+                    space.style.border = "1px solid rgb(0, 0, 0)";
+                    document.getElementById('tasks').appendChild(space); // add space to tasks
+                }
+                for(let j = 0; j < sdtoed; j++){ // Loop through weeks
+                    var form = document.createElement('form'); // create form div
+                    form.className = "grid-item";
+                    form.setAttribute("method","POST");
+                    form.setAttribute("action","/select/task");
+                    form.innerHTML = `
+                    <button type="hidden" id="ID" name="ID" style="all: unset; display: block; width: 100%; height: 100%; border-top: 1px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0);"></button>
+                    `;
+                    document.getElementById('tasks').appendChild(form); // add form to tasks
+                    let styles = `linear-gradient(0deg, #22828D ${taskprog}%, #BBBBBB ${taskprog}%)` // create gradient to indicate progress of task
+                    document.getElementById("ID").style.background = styles; // append styles
+                    document.getElementById("ID").setAttribute("value", tasks[i].task_id);
+                    document.getElementById("ID").setAttribute("id", tasks[i].task_id);
+                }
+                for(let j = 0; j < edtoed-1; j++){ // Loop through weeks
+                    var space = document.createElement('div'); // create space div
+                    space.className = "grid-item";
+                    space.style.border = "1px solid rgb(0, 0, 0)";
+                    document.getElementById('tasks').appendChild(space); // add space to tasks
+                }
+            }
+            document.getElementById('tasks').style.gridTemplateColumns = weekgrid; // apply style
+        }
+        function getweeks(sd, ed) { // get weeks between two dates
+            var start_date = new Date(sd);
+            var end_date = new Date(ed);
+            var perweek = 24 * 60 * 60 * 1000 * 7; // week total
+            var totalweeks = Math.round((end_date.valueOf()- start_date.valueOf())/ perweek) + 1;
+            return totalweeks; // return weeks
+        }
+        gannt(); // call gannt function
     </script>
   {{/if}}
   <!-- Task View -->
