@@ -9,12 +9,23 @@ The main files being worked on are:
 - files in the views folder
 
 The packages installed are:
-- express-generator@4.16.1
-- npm@9.1.2
+├── bcryptjs@2.4.3
+├── cookie-parser@1.4.6
+├── dotenv@16.0.3
+├── express-session@1.17.3
+├── express@4.18.2
+├── hbs@4.2.0
+├── mysql@2.18.1
+└── nodemon@2.0.20
 
-The node modules file is missing as it includes too many files.
+The node modules file is missing as it is too big in size.
 
-TO DO:
-18/02/2023
-- Add budget advice
-- Add shared access
+Guide to installing and running the application for the project: Project Manager for House Renovation by Andre Blackman 100274893
+
+1) Install XAMPP using the application installer provided
+2) Once installed run start Apache and then MySQL
+3) Press Admin on MySQL, Make a new database called login-db
+4) Open folder in Visual Studio
+5) type 'npm start' into the terminal
+
+Voila! The program is ready!
