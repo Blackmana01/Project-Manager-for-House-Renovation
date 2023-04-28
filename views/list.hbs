@@ -11,7 +11,7 @@
     <ul class="nav">
         <li><a href="/home">Home</a></li>
         <li><a href="/myproj">My Projects</a></li>
-        <li><a href="/sharedproj">Shared Projects</a></li>
+        <li><a href="/shared">Shared</a></li>
         <li><a href="/logout">Logout</a></li>
     </ul>
   </nav>
@@ -34,11 +34,14 @@
               <input type="hidden" id="ID" name="ID">
               <h1 id="title" class="login-title"></h1>
               <h3 id="desc" class="login-title"></h3>
-              <div class="grid-container">
+              <div id="container" class="grid-container">
                   <div class="grid-item" id="grid-item1">
                       <input type="submit" value="edit" name="type">
                   </div>
                   <div class="grid-item" id="grid-item2">
+                      <input type="submit" value="share" name="type">
+                  </div>
+                  <div class="grid-item" id="grid-item3">
                       <input type="submit" value="view" name="type">
                   </div>
               </div>
@@ -48,8 +51,10 @@
         document.getElementById("ID").setAttribute("id", obj[i].proj_id);
         document.getElementById("title").setAttribute("id", "name"+i);
         document.getElementById("desc").setAttribute("id", "desc"+i);
+        document.getElementById('container').setAttribute("id", "container"+i);
         document.getElementById("name"+i).innerHTML = obj[i].proj_name;
         document.getElementById("desc"+i).innerHTML = obj[i].proj_desc;
+        document.getElementById('container'+i).style.gridTemplateColumns = "auto auto auto";
       }
       for(let i = 0; i < obj.length; i++) { // Loop through each project
         project(i);
@@ -58,7 +63,7 @@
   {{/if}} 
   <!-- List tasks -->
   {{#if tasks}}
-    <button type="button" class="login-button" onclick="location.href='/editproj'">Back</button>
+    <button type="button" class="login-button" onclick='history.back()'>Back</button>
     <div><br></div>
     <button type="button" class="login-button" onclick="location.href='/newtask'">New Task</button>
     <div id="tasks">
@@ -77,11 +82,14 @@
             <input type="hidden" id="ID" name="ID">
             <h1 id="title" class="login-title"></h1>
             <h3 id="desc" class="login-title"></h3>
-            <div class="grid-container">
+            <div id="container" class="grid-container">
                 <div class="grid-item" id="grid-item1">
-                    <input type="submit" value="edit" name="type">
+                    <input type="submit" value="edit" name="type" >
                 </div>
                 <div class="grid-item" id="grid-item2">
+                    <input type="submit" value="share" name="type">
+                </div>
+                <div class="grid-item" id="grid-item3">
                     <input type="submit" value="view" name="type">
                 </div>
             </div>
@@ -91,8 +99,10 @@
         document.getElementById("ID").setAttribute("id", obj[i].task_id);
         document.getElementById("title").setAttribute("id", "name"+i);
         document.getElementById("desc").setAttribute("id", "desc"+i);
+        document.getElementById('container').setAttribute("id", "container"+i);
         document.getElementById("name"+i).innerHTML = obj[i].task_name;
         document.getElementById("desc"+i).innerHTML = obj[i].task_desc;
+        document.getElementById('container'+i).style.gridTemplateColumns = "auto auto auto";
       }
       for(let i = 0; i < obj.length; i++) {
         project(i);
@@ -101,7 +111,7 @@
   {{/if}} 
   <!-- List activities -->
   {{#if activities}}
-    <button type="button" class="login-button" onclick="location.href='/edittask'">Back</button>
+    <button type="button" class="login-button" onclick='history.back()'>Back</button>
     <div><br></div>
     <button type="button" class="login-button" onclick="location.href='/newact'">New Activity</button>
     <div id="activities">

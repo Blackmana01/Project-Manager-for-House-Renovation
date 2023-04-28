@@ -11,13 +11,13 @@
     <ul class="nav">
         <li><a href="/home">Home</a></li>
         <li><a href="/myproj">My Projects</a></li>
-        <li><a href="/sharedproj">Shared Projects</a></li>
+        <li><a href="/shared">Shared</a></li>
         <li><a href="/logout">Logout</a></li>
     </ul>
   </nav>
   <!-- New Project -->
     {{#if project}}
-        <button type="button" class="login-button" onclick="location.href='/myproj'">Exit</button>
+        <button type="button" class="login-button" onclick='history.back()'>Back</button>
         <form class="form" action="/create/project" method="POST">
             <h1 class="login-title">New Project</h1>
             <h3 class="login-title">Project Name:</h1>
@@ -56,7 +56,7 @@
     {{/if}}
     <!-- New Task -->
     {{#if projectdata}}
-        <button type="button" class="login-button" onclick="location.href='/tasks'">Exit</button>
+        <button type="button" class="login-button" onclick='history.back()'>Back</button>
         <form class="form" action="/create/task" method="POST">
             <h1 class="login-title">New Task</h1>
             <h3 class="login-title">Task Name:</h1>
@@ -90,7 +90,7 @@
     {{/if}}
     <!-- New Activity -->
     {{#if projectdata1}}
-        <button type="button" class="login-button" onclick="location.href='/acts'">Exit</button>
+        <button type="button" class="login-button" onclick='history.back()'>Back</button>
         <form class="form" action="/create/act" method="POST">
             <h1 class="login-title">New Activity</h1>
             <h3 class="login-title">Activity Name:</h1>

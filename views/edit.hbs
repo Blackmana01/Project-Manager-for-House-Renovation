@@ -11,13 +11,13 @@
     <ul class="nav">
         <li><a href="/home">Home</a></li>
         <li><a href="/myproj">My Projects</a></li>
-        <li><a href="/sharedproj">Shared Projects</a></li>
+        <li><a href="/shared">Shared</a></li>
         <li><a href="/logout">Logout</a></li>
     </ul>
   </nav>
   <!-- Edit Project -->
   {{#if project}}
-    <button type="button" class="login-button" onclick="location.href='/myproj'">Exit</button>
+    <button type="button" class="login-button" onclick='history.back()'>Back</button>
     <form class="form" action="/edit/project" method="POST">
         <h2>Edit Project</h2>
         <h3 class="login-title">Project Name:</h3>
@@ -33,7 +33,7 @@
         <button type="submit" class="login-button">Submit</button>
     </form>
     <form class="form">
-        <button type="button" class="login-button" onclick="location.href='/tasks'">Edit Tasks</button>
+        <button type="button" class="login-button" onclick="location.href='/tasks'">Tasks</button>
     </form>
     <form class="form" action="/del/project" method="POST">
         <button type="submit" class="login-button">Delete Project</button>
@@ -72,7 +72,7 @@
   {{/if}}
   <!-- Edit Task -->
   {{#if task}}
-    <button type="button" class="login-button" onclick="location.href='/tasks'">Exit</button>
+    <button type="button" class="login-button" onclick='history.back()'>Back</button>
     <form class="form" action="/edit/task" method="POST">
         <h2>Edit Task</h2>
         <h3 class="login-title">Task Name:</h3>
@@ -86,7 +86,7 @@
         <button type="submit" class="login-button">Submit</button>
     </form>
     <form class="form">
-        <button type="button" class="login-button" onclick="location.href='/acts'">Edit Activities</button>
+        <button type="button" class="login-button" onclick="location.href='/acts'">Activities</button>
     </form>
     <form class="form" action="/del/task" method="POST">
         <button type="submit" class="login-button">Delete Task</button>
@@ -125,7 +125,7 @@
   {{/if}}
   <!-- Edit Activity -->
   {{#if activity}}
-    <button type="button" class="login-button" onclick="location.href='/acts'">Exit</button>
+    <button type="button" class="login-button" onclick='history.back()'>Back</button>
     <form class="form" action="/edit/act" method="POST">
         <h2>Edit Activity</h2>
         <h3 class="login-title">Activity Name:</h3>

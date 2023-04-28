@@ -11,13 +11,13 @@
     <ul class="nav">
         <li><a href="/home">Home</a></li>
         <li><a href="/myproj">My Projects</a></li>
-        <li><a href="/sharedproj">Shared Projects</a></li>
+        <li><a href="/shared">Shared</a></li>
         <li><a href="/logout">Logout</a></li>
     </ul>
   </nav>
   <!-- Project View -->
   {{#if project}}
-    <button type="button" class="login-button" onclick=location.href='/myproj'>Exit</button>
+    <button type="button" class="login-button" onclick='history.back()'>Back</button>
     <div id="views" class="form">
         <h1 id="title" class="login-title"></h1>
         <h3 id="desc" class="login-title"></h3>
@@ -85,15 +85,22 @@
                     var form = document.createElement('form'); // create form div
                     form.className = "grid-item";
                     form.setAttribute("method","POST");
-                    form.setAttribute("action","/select/task");
-                    form.innerHTML = `
-                    <button type="hidden" id="ID" name="ID" style="all: unset; display: block; width: 100%; height: 100%; border-top: 1px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0);"></button>
+                    form.setAttribute("action","/select/task"); 
+                    form.innerHTML = `   
+                    <button type="hidden" id="ID" name="ID" onmouseover="mouseOver()" style="all: unset; display: block; width: 100%; height: 100%; border-top: 1px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0);"></button>
+                    <div class="tip">
+                        <span class="tiptext" id="tipID"></span>
+                    </div>
                     `;
                     document.getElementById('tasks').appendChild(form); // add form to tasks
                     let styles = `linear-gradient(0deg, #22828D ${taskprog}%, #BBBBBB ${taskprog}%)` // create gradient to indicate progress of task
                     document.getElementById("ID").style.background = styles; // append styles
                     document.getElementById("ID").setAttribute("value", tasks[i].task_id);
+                    document.getElementById("ID").setAttribute("onmouseover", "mouseOver("+tasks[i].task_id+")");
+                    document.getElementById("ID").setAttribute("onmouseout", "mouseOut("+tasks[i].task_id+")");
                     document.getElementById("ID").setAttribute("id", tasks[i].task_id);
+                    document.getElementById("tipID").setAttribute("value", tasks[i].task_id);
+                    document.getElementById("tipID").setAttribute("id", "T"+tasks[i].task_id);
                 }
                 for(let j = 0; j < edtoed-1; j++){ // Loop through weeks
                     var space = document.createElement('div'); // create space div
@@ -111,12 +118,23 @@
             var totalweeks = Math.round((end_date.valueOf()- start_date.valueOf())/ perweek) + 1;
             return totalweeks; // return weeks
         }
+        function mouseOver(id) {
+            document.getElementById("T"+id).style.visibility = "visible";
+            for (let i = 0; i < tasks.length; i++){
+                if(tasks[i].task_id == id){
+                    document.getElementById("T"+id).innerHTML = "Name: "+tasks[i].task_name+"<br>Start: "+tasks[i].start_date.split('T')[0]+"<br>End: "+tasks[i].end_date.split('T')[0]+"<br>Progress: "+tasks[i].progress+"%";
+                }
+            }
+        }
+        function mouseOut(id) {
+            document.getElementById("T"+id).style.visibility = "hidden";
+        }
         gannt(); // call gannt function
     </script>
   {{/if}}
   <!-- Task View -->
   {{#if task}}
-    <button type="button" class="login-button" onclick=location.href='/tasks'>Exit</button>
+    <button type="button" class="login-button" onclick='history.back()'>Back</button>
     <div id="views" class="form">
         <h1 id="title" class="login-title"></h1>
         <h3 id="desc" class="login-title"></h3>
@@ -132,19 +150,20 @@
     </div>
     <script>
         var text = "{{task}}";
+        console.log(text);
         var text = text.replace(/&quot;/g, '\"');
         var obj = JSON.parse(text);
         var task = obj[0];
         document.getElementById("title").innerHTML = task.task_name;
         document.getElementById("desc").innerHTML = task.task_desc;
         document.getElementById("progress").innerHTML = "Progress: " +task.progress;
-        document.getElementById("start").innerHTML = "Start: " +task.start_date.split('T')[0];
-        document.getElementById("finish").innerHTML = "Finish: " +task.end_date.split('T')[0];
+        document.getElementById("start").innerHTML = "Start: " + task.start_date;
+        document.getElementById("finish").innerHTML = "Finish: " + task.end_date;
     </script>
   {{/if}}
   <!-- Activity View -->
   {{#if activity}}
-    <button type="button" class="login-button" onclick=location.href='/acts'>Exit</button>
+    <button type="button" class="login-button" onclick='history.back()'>Back</button>
     <div id="views" class="form">
         <h1 id="title" class="login-title"></h1>
         <h3 id="desc" class="login-title"></h3>

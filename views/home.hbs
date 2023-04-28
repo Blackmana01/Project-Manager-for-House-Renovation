@@ -11,11 +11,20 @@
     <ul class="nav">
         <li><a href="/home">Home</a></li>
         <li><a href="/myproj">My Projects</a></li>
-        <li><a href="/sharedproj">Shared Projects</a></li>
+        <li><a href="/shared">Shared</a></li>
       <li><a href="/logout">Logout</a></li>
     </ul>
-  </nav>           
+  </nav>         
+  <form class="form">
   {{#if username }}
     <h1 class="login-title">Welcome {{username}}!</h1>
   {{/if}}
+  <p>This is a project management website for a house renovation project.</p>
+  <p>Use the navigation bar at the top to navigate to either "My Projects" or "Shared".
+    In the "My Projects" section you can create, edit and delete projects, tasks and activites. </p>
+  <p>Projects are made up of tasks which are made up of activites.
+    Activities are used to show the progress towards a tasks completion and tasks are used to divide up a project.</p>
+  <p>You can also share projects and tasks. The shared projects and tasks can be edited and deleted by whom they are shared with.
+     You can find these in the "Shared" section.</p>
+  </form>
 </body>
