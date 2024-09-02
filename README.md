@@ -29,3 +29,5 @@ Guide to installing and running the application for the project: Project Manager
 5) type 'npm start' into the terminal
 
 Voila! The program is ready!
+
+This repository is no longer supported or updated
