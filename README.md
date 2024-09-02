@@ -20,7 +20,7 @@ The packages installed are:
 
 The node modules file is missing as it is too big in size.
 
-Guide to installing and running the application for the project: Project Manager for House Renovation by Andre Blackman 100274893
+Guide to installing and running the application for the project: Project Manager for House Renovation by Andre Blackman
 
 1) Install XAMPP using the application installer provided
 2) Once installed run start Apache and then MySQL
